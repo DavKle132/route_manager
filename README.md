@@ -1,14 +1,14 @@
 # Route Manager
 
-##Overview
+## Overview
 
 This Django-based webapp is a re-implementation of a workflow manager I used at a previous employer. Their design and implementation was horrible. While in my HCI class, we were given an open ended project and this immediately came to mind.
 
-##Function
+## Function
 
 To understand what I built you must understand what the previous system's purpose was. At my previous job the deliverable were routes. A route is a section of road, somewhere in the US, that was driving using LIDAR cameras. After a route was collected it would have to go through the four stages of processing before it could be delivered (WF1 - WF3 and QC). The workflow manager they used was simple desktop application that was full of bugs that made it very difficult to use. Also the UI, was far from intuitive. Sometimes the word _Submit_ would mean different things or it would simply not update the changes on the database. If the person who created the routes made any mistakes, they had to write complex UPDATE statements directly on the database to make changes. These are just a few of the problems that I wanted to fix in my implementation.
 
-##Goals
+## Goals
 
 The goals for the project, as listed on the documentation, were as follows:
 
