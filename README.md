@@ -12,7 +12,7 @@ To understand what I built you must understand what the previous system's purpos
 
 The goals for the project, as listed on the documentation, were as follows:
 
->Prototype an interface, with a focus on design/usability (not on functionality)
+>Prototype an interface, with a focus on design/usability (not on functionality).
 >Can either remake an existing interface or imagine a new one.
 >Focus on five pieces of functionality you want to prototype.
 
@@ -29,5 +29,8 @@ In my current implementation, I have completed all of these except the CSV uploa
 * A way to upload a CSV for bulk uploads of routes
 * A User homepage for viewing currently active routes
 * Ability to mark routes that have errors
+* Sorting capabilities to *route_list*
+* A way to clear out completed routes
+* Produce metrics on rates
 
 
