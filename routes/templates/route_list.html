@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Route List
+{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top:25px;">
+    <div class="container">
+        <h1 class="display-3">Welcome to Route Manager</h1>
+        <p class="lead">Click on any route for more information</p>
+
+    </div>
+    <div class="container-fluid">
+        <table class="table">
+            <tr>
+                <td>
+                    <p class="lead">Name</p>
+                </td>
+                <td>
+                    <p class="lead">Active User</p>
+                </td>
+                <td>
+                    <p class="lead">Workflow</p>
+                </td>
+                <td>
+                    <p class="lead">Checkout</p>
+                </td>
+            </tr>
+            {% for route in routes %}
+            {% if route.1.status == 1 %}
+            <tr class="table-success">
+                {% elif route.1.status == 2 %}
+            <tr class="table-danger">
+                {% elif route.1.status == 3 %}
+            <tr class="table-dark">
+                {% else %}
+            <tr>
+                {% endif %}
+                <td><a href="/routes/{{ route.0.route_name }}/" style="font-size:1.2em; text-decoration:none"
+                        class="lead">{{ route.0.route_name }}</a></td>
+                {% if route.0.active_user %}
+                <td>
+                    <p class="lead">{{ route.0.active_user }}</p>
+                </td>
+                {% else %}
+                <td>
+                    <p class="lead">None</p>
+                </td>
+                {% endif %}
+                <td>
+                    <p class="lead">{{ route.1.workflow }}</p>
+                </td>
+                {% if route.1.status == 0 %}
+                <form action="/routes/{{ route.0.route_name }}/checkout/" method="POST">
+                    {% csrf_token %}
+                    <td><button class="btn btn-primary">Checkout</button></td>
+                </form>
+                {% elif route.0.active_user == request.user %}
+                <form action="/routes/{{ route.0.route_name }}/turnin/" method="POST">
+                    {% csrf_token %}
+                    <td><button class="btn btn-primary">Turn-in</button></td>
+                </form>
+                {% else %}
+                <td>
+                    <p class="lead"></p>
+                </td>
+                {% endif %}
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<!-- <div class="container" style="padding-top:25px">
+    {{ list }}
+</div> -->
+
+{% endblock %}

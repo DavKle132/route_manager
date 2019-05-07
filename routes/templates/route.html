@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Route Information
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="container" style="padding-top:25px;">
+        <h1 class="display-3">{{ route.route_name }}</h1>
+        <div>
+            <table class="table" style="padding-top: 25px">
+                <tr>
+                    <td>
+                        <p class="lead">Length: {{ route.route_length }} miles</p>
+                    </td>
+                    <td style="text-align:center">
+                        {% if wf and not wf.status == 3 %}
+                        <p class="lead">{{ wf.workflow }}</p>
+                        {% elif wf.status == 3 %}
+                        <div class="alert alert-success" role="alert">
+                            Status: Complete
+                        </div>
+                        <!-- <p class="lead" style="padding-left: 50px">Status: COMPLETE</p> -->
+                        {% elif wf.status == 2 %}
+                        <div class="alert alert-danger" role="alert">
+                            Status: Error
+                        </div>
+                        <!-- <p class="lead" style="padding-left: 50px">Status: ERROR</p> -->
+                        {% else %}
+                        <div class="alert alert-warning" role="alert">
+                            Status: Unstarted
+                        </div>
+                        <!-- <p class="lead" style="padding-left: 50px">Status: Unstarted</p> -->
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <!-- <p>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                Notes
+            </button>
+            <a class="btn btn-primary" href="add_note/" role="button"">
+                Add a note
+            </a>
+        </p> -->
+
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                {% if notes %}
+                <button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseOne">Notes</button>
+                {% endif %}
+                {% if logs %}
+                <button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">Log</button>
+                {% endif %}
+            </div>
+            <div class="btn-group mr-2" role="group" aria-label="Second group">
+                <a role="button" href="add_note/" class="btn btn-secondary">Add a note</a>
+            </div>
+        </div>
+
+        <div class="collapse show" id="collapseOne">
+            <table class="table">
+                {% if notes %}
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">start</th>
+                        <th scope="col">end</th>
+                        <th scope="col">message</th>
+                    </tr>
+                </thead>
+                {% else %}
+                <!-- <div class="alert alert-warning" role="alert">
+                    There are no notes yet
+                </div> -->
+                {% endif %}
+                {% for note in notes %}
+                <tr>
+                    <td>
+                        {{ note.start_frame }}
+                    </td>
+                    <td>
+                        {{ note.end_frame }}
+                    </td>
+                    <td>
+                        <p class="lead">{{ note.message }}</p>
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </table>
+        </div>
+        <div class="collapse show" id="collapseTwo">
+            <table class="table">
+                <thead class="thead-light">
+                    {% if logs %}
+                    <tr>
+                        <th scope="col">started</th>
+                        <th scope="col">end</th>
+                        <th scope="col">user</th>
+                        <th scope="col">workflow</th>
+                    </tr>
+                    {% endif %}
+                </thead>
+                {% for log in logs %}
+                <tr>
+                    <td>
+                        {{ log.start }}
+                    </td>
+                    <td>
+                        {{ log.end }}
+                    </td>
+                    <td>
+                        {{ log.workflow }}
+                    </td>
+                    <td>
+                        {{ log.user }}
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

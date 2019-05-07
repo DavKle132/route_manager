@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Add Note{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="container" style="padding-top:25px;">
+    <h1 class='display-3'>Add a Note</h1>
+    <form method="post">
+      <div class="form-group">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <input class="btn btn-primary" type=button value="Cancel" onClick="javascript:history.go(-1);">
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
