@@ -8,19 +8,19 @@
 <div class="container-fluid">
   <div class="container" style="padding-top:25px;">
     <h1 class="display-3">Welcome to Route Manager</h1>
-    <p class="lead">Route Manager helps manage workflows quickly and easilty. To learn more, please visit
+    <p class="lead">Route Manager helps manage workflows quickly and easilty. To learn more please visit
       our documentation.
     </p>
     <hr class="my-4">
-    <p>Route Manager is build using Django and Bootstrap</p>
-    {% if user.is_authenticated %}
+    <p>Route Manager is built using Django and Bootstrap</p>
+    <!-- {% if user.is_authenticated %}
     <p class="lead">Hi {{ user.username }}!</p>
     <a class="btn btn-primary" role="button" href="{% url 'logout' %}">logout</a>
     <a class="btn btn-primary" role="button" href="routes/route_list">routes</a>
     {% else %}
     <a class="btn btn-primary" role="button" href="{% url 'login' %}">login</a>
     <a class="btn btn-primary" role="button" href="accounts/signup">register</a>
-    {% endif %}
+    {% endif %} -->
   </div>
 
   {% endblock %}

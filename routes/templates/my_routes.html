@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Route List
+My Routes
 {% endblock %}
 
 {% block content %}
 <div class="container" style="padding-top:25px;">
     <div class="container">
-        <h1 class="display-3">All Routes</h1>
-        <p class="lead">Click on any route for more information</p>
+        <h1 class="display-3">My Routes</h1>
+        <p class="lead">All active routes for {{ request.user }}</p>
 
     </div>
     <div class="container-fluid">
@@ -17,9 +17,9 @@ Route List
                 <td>
                     <p class="lead">Name</p>
                 </td>
-                <td>
+                <!-- <td>
                     <p class="lead">Active User</p>
-                </td>
+                </td> -->
                 <td>
                     <p class="lead">Workflow</p>
                 </td>
@@ -39,27 +39,18 @@ Route List
                 {% endif %}
                 <td><a href="/routes/{{ route.0.route_name }}/" style="font-size:1.2em; text-decoration:none"
                         class="lead">{{ route.0.route_name }}</a></td>
-                {% if route.0.active_user %}
-                <td>
-                    <p class="lead">{{ route.0.active_user }}</p>
-                </td>
-                {% else %}
-                <td>
-                    <p class="lead">None</p>
-                </td>
-                {% endif %}
                 <td>
                     <p class="lead">{{ route.1.workflow }}</p>
                 </td>
                 {% if route.1.status == 0 %}
                 <form action="/routes/{{ route.0.route_name }}/checkout/" method="POST">
                     {% csrf_token %}
-                    <td><button class="btn btn-primary" style="width: 92px">Checkout</button></td>
+                    <td><button class="btn btn-primary">Checkout</button></td>
                 </form>
                 {% elif route.0.active_user == request.user %}
                 <form action="/routes/{{ route.0.route_name }}/turnin/" method="POST">
                     {% csrf_token %}
-                    <td><button class="btn btn-primary" style="width: 92px">Turn-in</button></td>
+                    <td><button class="btn btn-primary">Turn-in</button></td>
                 </form>
                 {% else %}
                 <td>

@@ -12,10 +12,10 @@ class RouteForm(forms.ModelForm):
         model = Route
         fields = ('route_name', 'route_length',)
 
-def validate_csv(value):
-    if not value.name.endswith('.csv'):
-        raise ValidationError(u'Error message')
+# def validate_csv(value):
+#     if not value.name.endswith('.csv'):
+#         raise ValidationError(u'Error message')
 
 class UploadFileForm(forms.Form):
     # title = forms.CharField(max_length=50)
-    file = forms.FileField(validators=[validate_csv])
+    file = forms.FileField()

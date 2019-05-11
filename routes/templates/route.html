@@ -16,7 +16,10 @@ Route Information
                     </td>
                     <td style="text-align:center">
                         {% if wf and not wf.status == 3 %}
-                        <p class="lead">{{ wf.workflow }}</p>
+                        <div class="alert alert-primary" role="alert">
+                            Status: {{ wf.workflow }} In Progress
+                        </div>
+                        <!-- <p class="lead">{{ wf.workflow }}</p> -->
                         {% elif wf.status == 3 %}
                         <div class="alert alert-success" role="alert">
                             Status: Complete
@@ -51,18 +54,25 @@ Route Information
 
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             <div class="btn-group mr-2" role="group" aria-label="First group">
-                {% if notes %}
-                <button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseOne"
-                    aria-expanded="true" aria-controls="collapseOne">Notes</button>
-                {% endif %}
-                {% if logs %}
-                <button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">Log</button>
-                {% endif %}
+                
+                <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseOne" {% if not notes %}disabled{% endif %}>Notes</button>
+                <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo" {% if not logs %}disabled{% endif %}>Log</button>
             </div>
             <div class="btn-group mr-2" role="group" aria-label="Second group">
-                <a role="button" href="add_note/" class="btn btn-secondary">Add a note</a>
+                <a role="button" href="add_note/" class="btn btn-primary">Add a note</a>
             </div>
+            {% if route.active_user == request.user and not wf.status == 0 %}
+            <div class="btn-group mr-2" role="group" aria-label="Second group">
+                <a role="button" href="/routes/{{ route.route_name }}/turnin" class="btn btn-primary">Turn-in</a>
+            </div>
+            {% endif %}
+            {% if not wf or wf.status == 0 %}
+            <div class="btn-group mr-2" role="group" aria-label="Second group">
+                <a role="button" href="/routes/{{ route.route_name }}/checkout" class="btn btn-primary">Checkout</a>
+            </div>
+            {% endif %}
         </div>
 
         <div class="collapse show" id="collapseOne">

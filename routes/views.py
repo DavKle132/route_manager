@@ -18,6 +18,19 @@ def route_list(request):
     else:
         return render(request, 'home.html')
 
+def my_routes(request):
+    if(request.user.is_authenticated):
+        routes = Route.objects.filter(active_user=request.user)
+        rw = []
+        for route in routes:
+            r = RouteWorkflow.objects.filter(route=route).first()
+            rw.append(r)
+
+        routes = merge(routes, rw)
+        return render(request, 'my_routes.html', {'routes': routes})
+    else:
+        return render(request, 'home.html')
+
 def merge(list1, list2): 
       
     merged_list = [(list1[i], list2[i]) for i in range(0, len(list1))] 
@@ -70,6 +83,58 @@ def add_route(request):
 
     return render(request, 'add_route.html', {'form': form})
 
+def handle_uploaded_file(file):
+    print('Heyo')
+
+def upload_csv(request):
+    # if request.method == 'POST':
+    #     form = UploadFileForm(request.POST)
+    #     print('Heyo')
+
+    #     if form.is_valid():
+    #         handle_uploaded_file(request.FILES['file'])
+
+    #         return redirect('upload_csv')
+    # else:
+    #     form = UploadFileForm()
+
+    # return render(request, 'upload_csv.html', {'form': form})
+
+    if "GET" == request.method:
+        return render(request, "upload_csv.html")
+    # if not GET, then proceed
+    try:
+        csv_file = request.FILES["csv_file"]
+        if not csv_file.name.endswith('.csv'):
+            messages.error(request,'File is not CSV type')
+            return redirect('upload_csv')
+        #if file is too large, return
+        if csv_file.multiple_chunks():
+            messages.error(request,"Uploaded file is too big (%.2f MB)." % (csv_file.size/(1000*1000),))
+            return redirect('upload_csv')
+
+        file_data = csv_file.read().decode("utf-8")		
+
+        lines = file_data.split("\n")
+        #loop over the lines and save them in db. If error , store as string and then display
+        for line in lines:						
+            fields = line.split(",")
+            data_dict = {}
+            data_dict["route_name"] = fields[0]
+            data_dict["length"] = float(fields[1])
+            r = Route.objects.create(route_name=fields[0], route_length=float(fields[1]))
+            r.save()
+            print(data_dict)
+
+        return render(request, "upload_csv.html", {"Success":1})
+            
+
+    except Exception as e:
+        logging.getLogger("error_logger").error("Unable to upload file. "+repr(e))
+        messages.error(request,"Unable to upload file. "+repr(e))
+
+    return render(request, "upload_csv.html", {"Success":0})
+
 def checkout(request, route_name):
     route = Route.objects.filter(route_name=route_name).first()
     route.active_user=request.user
@@ -83,7 +148,7 @@ def checkout(request, route_name):
     log.save()
 
     routes = Route.objects.all()
-    return redirect('route_list')
+    return redirect('route', route_name=route_name)
 
 def turnin(request, route_name):
     route = Route.objects.filter(route_name=route_name).first()
@@ -112,4 +177,4 @@ def turnin(request, route_name):
 
     
 
-    return redirect('route_list')
+    return redirect('route', route_name=route_name)

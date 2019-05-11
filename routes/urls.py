@@ -8,6 +8,8 @@ from . import views
 urlpatterns = [
     path('route_list/', views.route_list, name='route_list'),
     path('add_route/', views.add_route, name='add_route'),
+    path('my_routes/', views.my_routes, name='my_routes'),
+    path('upload_csv/', views.upload_csv, name='upload_csv'),
     path('<slug:route_name>/', views.route, name='route'),
     path('<slug:route_name>/add_note/', views.add_note, name='add_note'),
     path('<slug:route_name>/checkout/', views.checkout, name='checkout'),

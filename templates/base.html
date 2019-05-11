@@ -31,13 +31,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/routes/add_route">add route</a>
                 </li>
-                {% endif %}
-                {% if request.user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/routes/route_list">routes</a>
+                    <a class="nav-link" href="/routes/upload_csv">upload csv</a>
                 </li>
                 {% endif %}
             </ul>
+            {% if request.user.is_authenticated %}
+            <a class="btn btn-primary" style="padding-left: 10px" href="/routes/route_list">routes</a>
+            <a class="btn btn-primary" style="padding-right: 10px" href="/routes/my_routes">my routes</a>
+            {% endif %}
             {% if request.user.is_authenticated %}
             <a class="btn btn-primary" role="button" href="{% url 'logout' %}">logout</a>
             {% else %}
