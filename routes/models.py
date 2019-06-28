@@ -36,7 +36,6 @@ def route_post_save(sender, instance, **kwargs):
     workflow = Workflow.objects.filter(workflow_name='WF1').first()
     rw = RouteWorkflow.objects.create(route=instance, workflow=workflow)
     rw.save()
-    print('Heyo ')
 
 
 class Note(models.Model):
